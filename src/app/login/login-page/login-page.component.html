@@ -1,0 +1,35 @@
+<div class="login-container">
+  <button class="lang">
+    <img
+      class="lang-img"
+      src="../../../assets/images/eng-lang.png"
+      alt="language"
+    />
+  </button>
+
+  <div class="title">
+    <h1>Music Dot Com</h1>
+    <h4>Music In Your Hand</h4>
+  </div>
+
+  <form [formGroup]="loginForm" class="form-control">
+    <mat-form-field color="accent" appearance="legacy">
+      <mat-label>Email</mat-label>
+      <input matInput type="text" formControlName="email" />
+      <span matSuffix><mat-icon>verified_user</mat-icon></span>
+      <mat-error *ngIf="loginForm.get('email').hasError('required')">Email Required</mat-error>
+      <mat-error *ngIf="loginForm.get('email').hasError('email')">Email Not valid</mat-error>
+    </mat-form-field>
+    <mat-form-field color="accent" appearance="legacy">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" formControlName="password" />
+      <span matSuffix><mat-icon>vpn_key</mat-icon></span>
+      <mat-error>Password Required</mat-error>
+    </mat-form-field>
+  </form>
+
+  <div class="actions">
+    <p>Forget Password ?</p>
+    <button mat-raised-button [disabled]="!loginForm.valid" (click)="onLogin()">Login</button>
+  </div>
+</div>

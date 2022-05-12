@@ -1,0 +1,104 @@
+.table-control {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  margin: 50px auto;
+}
+
+.song-list-table {
+  border: 2px solid #607D8B;
+  margin: 0 auto;
+}
+
+.actions {
+  display: flex;
+  justify-content: end;
+  gap: 10px;
+  margin-bottom: 10px;
+
+  .add-button {
+    background-color: rgb(211, 176, 21);
+    color: #1d1d1d;
+  }
+
+  .reset-button {
+    background-color: #607D8B;
+    color: rgb(236, 236, 236);
+  }
+}
+
+.mat-cell {
+  border: 1px solid #607D8B;
+  padding-left: 24px;
+}
+
+
+.mat-header-cell {
+    background-color: #1d1d1d;
+  font-size: .9rem;
+  border: 1px solid #607D8B;
+  text-align: center;
+  padding: 0 20px;
+}
+
+.mat-column-name {
+  width: 35%;
+
+}
+
+.mat-column-genre {
+  width: 10%;
+
+}
+
+.mat-column-duration {
+  width: 10%;
+}
+
+.mat-column-created_by {
+  width: 15%;
+}
+
+.mat-column-actions {
+  width: 25%;
+  text-align: center;
+}
+
+.mat-header-row {
+  background-color: #2e2d2d;
+}
+
+.mat-row {
+  cursor: pointer;
+}
+
+.mat-row:nth-child(even) {
+  background-color: #2e2d2d;
+
+  &:hover {
+    background-color: #1d1d1d;
+  }
+}
+
+.mat-row:nth-child(odd) {
+  background-color: #607D8B;
+  &:hover {
+    background-color: #2771c5;
+  }
+}
+
+.row-button:hover {
+  transform: scale(1.1);
+}
+
+.row-copy-button:hover {
+  color: #bdbeac;
+}
+
+.row-edit-button:hover {
+  color: rgb(129, 241, 129);
+}
+
+.row-delete-button:hover {
+  color: rgb(201, 60, 60);
+}

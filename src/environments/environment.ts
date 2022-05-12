@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  apiUrl: 'https://86e6-2001-448a-4046-2dc8-8c88-2445-5f4f-7bbe.ap.ngrok.io/graphql',
+  tokenKey: 'token'
 };
 
 /*

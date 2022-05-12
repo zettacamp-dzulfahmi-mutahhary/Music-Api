@@ -1,0 +1,57 @@
+<div class="matDialog">
+  <div class="title">
+    <h1 mat-dialog-title>{{title}} Song</h1>
+    <span
+      ><button mat-dialog-close><mat-icon>close</mat-icon></button></span
+    >
+  </div>
+
+  <mat-dialog-content>
+    <form class="form-control" [formGroup]="addSongForm">
+      <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input type="text" matInput formControlName="name" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Genre</mat-label>
+        <input type="text" matInput formControlName="genre" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Duration</mat-label>
+        <input type="number" matInput formControlName="duration" />
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button
+      class="close"
+      mat-raised-button
+      color="warn"
+      (click)="onCloseDialog()"
+    >
+      Close
+    </button>
+    <button
+      class="submit"
+      *ngIf="!isEdit"
+      mat-raised-button
+      [disabled]="!addSongForm.valid"
+      (click)="onSubmitDialog()"
+      color="accent"
+    >
+      Submit
+    </button>
+    <button
+    
+      class="submit"
+      *ngIf="isEdit"
+      mat-raised-button
+      [disabled]="!addSongForm.valid"
+      (click)="onEditDialog()"
+      color="accent"
+    >
+      Update
+    </button>
+  </mat-dialog-actions>
+</div>
