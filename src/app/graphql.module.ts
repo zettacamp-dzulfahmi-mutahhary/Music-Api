@@ -20,7 +20,8 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
     // Use the setContext method to set the HTTP headers.
     operation.setContext({
       headers: {
-        Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5pY29zYXR1QGdtYWlsLmNvbSIsInBhc3N3b3JkIjoibmljb3NhdHUiLCJpYXQiOjE2NTIzNDc2MzAsImV4cCI6MTY1MjM1MTIzMH0.bG48q0XVw39apbxGUTSdVigmPNcIGjT8MsLFNhhtbEg",
+        Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5pY29lbXBhdEBnbWFpbC5jb20iLCJwYXNzd29yZCI6Im5pY29lbXBhdCIsImlhdCI6MTY1MjQxMTA4MiwiZXhwIjoxNjUyNDE0NjgyfQ.u74G33XavUBlpU4eq29MyFhZu8q-DZIHouInNwjGqg0",
+        // `JWT ${token}`,
       },
     });
 
