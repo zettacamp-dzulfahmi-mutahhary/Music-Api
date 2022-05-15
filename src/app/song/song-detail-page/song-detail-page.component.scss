@@ -1,9 +1,24 @@
 .card-container{
-
+    
 }
 
 mat-card{
+    position: relative;
+    background-color: #607D8B;
     margin: 50px auto;
     width: 500px;
+    min-height: 200px;
     text-align: center;
+}
+
+mat-card-title{
+    border-bottom: 1px solid white;
+    padding-bottom: 10px;
+}
+
+mat-spinner{
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    transform: translate(-50%);
 }

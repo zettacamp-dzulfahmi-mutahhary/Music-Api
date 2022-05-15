@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { startWith, tap } from 'rxjs';
+import { debounceTime, startWith, tap } from 'rxjs';
 import Swal from 'sweetalert2';
 import { openAddSongDialog } from '../add-song-dialog/add-song-dialog.component';
 import { Song, SongService } from '../song.service';
@@ -36,19 +36,20 @@ export class SongTableListComponent implements OnInit, AfterViewInit {
     'blank',
   ];
 
-  onFetchData(from?) {
-    console.log(from);
-
+  onFetchData() {
+    
     const pagination = {
       limit: this.paginator.pageSize ? this.paginator.pageSize : 5,
-      skip: this.paginator.pageIndex ? this.paginator.pageIndex : 0,
+      page: this.paginator.pageIndex ? this.paginator.pageIndex : 0,
     };
     this.isLoading = true;
-    this.songService.getAllSongs(pagination).subscribe((data) => {
-      this.dataSource.data = data.data.getAllSongs;
+    this.songService.getAllSongs(pagination)
+    .pipe(debounceTime(1000))
+    .subscribe((data) => {
+      this.dataSource.data = data.data.getAllSongs.songs;
       this.isLoading = false;
-      this.paginator.length = 20;
-      this.dataCount = 20;
+      this.paginator.length = data.data.getAllSongs.count;
+      this.dataCount = data.data.getAllSongs.count;
     });
   }
 
@@ -79,11 +80,11 @@ export class SongTableListComponent implements OnInit, AfterViewInit {
         this.songService.deleteSong(id).subscribe((res) => {
           console.log(`Deleted ${res}`);
           Swal.fire('Deleted!', '', 'success').then((res) => {
-            this.onFetchData('after delete');
+            this.onFetchData();
           });
         });
       } else if (result.isDenied) {
-        Swal.fire('Hufftt', '', 'info');
+        Swal.fire('Deletion is Canceled', '', 'info');
       }
     });
   }

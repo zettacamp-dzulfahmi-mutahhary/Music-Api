@@ -1,11 +1,14 @@
 .table-control {
   display: flex;
   flex-direction: column;
-  width: 60%;
+  // min-width: 50%;
+  max-width: 60%;
   margin: 50px auto;
+  position: relative;
 }
 
 .song-list-table {
+  min-width: none;
   border: 2px solid #607D8B;
   margin: 0 auto;
 }
@@ -28,7 +31,7 @@
 }
 
 .mat-cell {
-  border: 1px solid #607D8B;
+  border: 1px solid #2f3b41;
   padding-left: 24px;
 }
 
@@ -101,4 +104,12 @@
 
 .row-delete-button:hover {
   color: rgb(201, 60, 60);
+}
+
+mat-spinner{
+  left: 50%;
+  top: 45%;
+  transform: translateY(-50%);
+  transform: translateX(-50%);
+  position: absolute;
 }

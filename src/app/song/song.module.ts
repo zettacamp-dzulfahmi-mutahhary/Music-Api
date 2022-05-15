@@ -7,20 +7,26 @@ import { SharedModule } from '../shared/shared.module';
 
 
 
+
+
 @NgModule({
   declarations: [
     SongTableListComponent,
     AddSongDialogComponent,
-    SongDetailPageComponent
+    SongDetailPageComponent,
+    
+    
+    
   ],
   imports: [
     CommonModule,
-    SharedModule
+    SharedModule,
   ],
   exports:[
     SongTableListComponent,
     AddSongDialogComponent,
-    SongDetailPageComponent
+    SongDetailPageComponent,
+    
   ]
 })
 export class SongModule { }

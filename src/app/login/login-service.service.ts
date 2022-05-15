@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
-import { map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -8,6 +8,12 @@ import { environment } from 'src/environments/environment';
 })
 export class LoginServiceService {
   constructor(private apollo: Apollo) {}
+
+  isLoggedIn$ = new BehaviorSubject(false);
+  isLoggedInObs = this.isLoggedIn$.asObservable();
+
+  isLoading$ = new BehaviorSubject(false);
+  isLoadingObs = this.isLoading$.asObservable();
 
   loginUser(userInput: { email: string; password: string }): Observable<any> {
     return this.apollo
@@ -23,21 +29,21 @@ export class LoginServiceService {
         variables: {
           userInput,
         },
-      }).pipe(
+      })
+      .pipe(
         map((resp) => {
-          console.log(resp.data);
-          
-          this.userLogin(resp.data);
+          this.userLogin(resp.data['loginUser'].token);
           return resp;
         })
       );
   }
 
-  userLogin(data: any) {
-    const token = data
-    localStorage.setItem(
-      environment.tokenKey,
-      JSON.stringify(data.loginUser.token)
-    );
+  userLogin(token: any) {
+    if (!token) {
+      throw new Error("You're Not Authenticated");
+    }
+    localStorage.setItem(environment.tokenKey, JSON.stringify(token));
+    this.isLoggedIn$.next(true);
+    this.isLoggedInObs.subscribe((data) => console.log(`login : ${data}`));
   }
 }

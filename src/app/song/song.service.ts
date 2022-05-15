@@ -116,17 +116,22 @@ export class SongService {
     });
   }
 
-  getAllSongs(songlistInput: { limit: number; skip: number }): Observable<any> {
+  getAllSongs(songlistInput: { limit: number; page: number }): Observable<any> {
     return this.apollo.query({
       query: gql`
-        query GetSongById($songlistInput: Pagination) {
+        query Query($songlistInput: Pagination) {
           getAllSongs(songlist_input: $songlistInput) {
-            _id
-            name
-            genre
-            duration
-            created_by {
+            count
+            songs {
+              _id
               name
+              genre
+              duration
+              created_by {
+                _id
+                name
+                user_type
+              }
             }
           }
         }
@@ -206,9 +211,10 @@ export class SongService {
             name
           }
         }
-      `,variables:{
-        id
-      }
+      `,
+      variables: {
+        id,
+      },
     });
   }
 }

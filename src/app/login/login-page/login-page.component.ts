@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { catchError } from 'rxjs';
 import { LoginServiceService } from '../login-service.service';
 
 @Component({
@@ -8,7 +9,7 @@ import { LoginServiceService } from '../login-service.service';
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.scss'],
 })
-export class LoginPageComponent implements OnInit {
+export class LoginPageComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -16,6 +17,8 @@ export class LoginPageComponent implements OnInit {
   ) {}
 
   loginForm: FormGroup;
+  errorMessage: string;
+  isLoading = false;
 
   formInit() {
     this.loginForm = this.fb.group({
@@ -25,16 +28,27 @@ export class LoginPageComponent implements OnInit {
   }
 
   onLogin() {
-    console.log(this.loginForm.value);
-    
-    this.loginService
-      .loginUser(this.loginForm.value)
-      .subscribe((data) => console.log(data));
-
-    this.router.navigate(['song']);
+    // console.log(this.loginForm.value);
+    this.loginService.isLoading$.next(true);
+    this.loginService.loginUser(this.loginForm.value).subscribe({
+      next: (data) => {
+        console.log(data);   
+        setTimeout(() => {
+          this.loginService.isLoading$.next(false);
+          this.router.navigate(['song']);
+        }, 1000);
+      },
+      error: (error) => {
+        console.log(error);
+        this.errorMessage = error;
+      },
+    });
   }
 
   ngOnInit(): void {
+    this.loginService.isLoadingObs.subscribe((data) => (this.isLoading = data));
     this.formInit();
   }
+
+  ngOnDestroy(): void {}
 }

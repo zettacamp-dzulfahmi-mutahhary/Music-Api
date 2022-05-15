@@ -1,16 +1,15 @@
 <div class="card-container">
-
-    <mat-card>
-        <mat-card-title>
-            {{song.getSongById.name}}
-        </mat-card-title>
-        <mat-card-subtitle>
-           {{song.getSongById.genre}}
-        </mat-card-subtitle>
-        <mat-card-content>
-            <span class="duration">{{song.getSongById.duration}} |</span>
-            <span class="created"> {{song.getSongById.created_by.name}}</span>
-        </mat-card-content>
-
-    </mat-card>
+  <mat-card>
+    <mat-spinner *ngIf="isLoading" color="accent" [diameter]="50"> </mat-spinner>
+    <mat-card-title>
+      {{ song.name }}
+    </mat-card-title>
+    <mat-card-subtitle>
+      {{ song.genre }}
+    </mat-card-subtitle>
+    <mat-card-content>
+      <p class="duration">{{ song.duration | formatTime }}</p>
+      <p class="created">{{ song.created_by.name }}</p>
+    </mat-card-content>
+  </mat-card>
 </div>

@@ -43,6 +43,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormatTimePipe } from './format-time.pipe';
 
 const module = [
   CommonModule,
@@ -84,10 +85,14 @@ const module = [
   FormsModule,
   ReactiveFormsModule,
 ];
-const component = [];
+const component = [
+  FormatTimePipe
+];
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    FormatTimePipe
+  ],
   imports: [...module],
   exports: [...module, ...component],
 })
