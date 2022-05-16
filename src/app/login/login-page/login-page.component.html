@@ -30,7 +30,7 @@
 
   <div class="actions">
     <p>Forget Password ?</p>
-    <button class="login-button" mat-raised-button [disabled]="!loginForm.valid" (click)="onLogin()">
+    <button routerLinkActive="router-link-active"  class="login-button" mat-raised-button [disabled]="!loginForm.valid" (click)="onLogin()">
       <mat-spinner *ngIf="isLoading" color="accent" [diameter]="20"></mat-spinner> Login</button>
   </div>
 

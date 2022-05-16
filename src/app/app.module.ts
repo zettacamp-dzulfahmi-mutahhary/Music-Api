@@ -10,6 +10,8 @@ import { SongModule } from './song/song.module';
 import { GraphQLModule } from './graphql.module';
 import { HttpClientModule } from '@angular/common/http';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { HeaderModule } from './header/header.module';
+import { JwtModule } from '@auth0/angular-jwt';
 
 
 
@@ -24,9 +26,17 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     SharedModule,
     LoginModule,
     SongModule,
+    HeaderModule,
     GraphQLModule,
     HttpClientModule,
-    SweetAlert2Module.forRoot()
+    SweetAlert2Module.forRoot(),
+    JwtModule.forRoot({
+      config: {
+        tokenGetter:()=>{
+          return localStorage.getItem('tokenKey');
+        }
+      }
+    })
   
     
     

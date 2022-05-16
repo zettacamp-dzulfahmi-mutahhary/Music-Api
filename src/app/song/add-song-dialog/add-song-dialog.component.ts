@@ -59,7 +59,7 @@ export class AddSongDialogComponent implements OnInit, AfterViewInit {
     this.disableForm();
     this.currentSong = this.song;
     // this.isEdit = this.song.name ? true : false;
-    console.log(this.song);
+    
   }
 
   onCloseDialog() {

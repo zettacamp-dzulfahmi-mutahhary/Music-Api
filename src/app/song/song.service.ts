@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { BehaviorSubject } from 'rxjs';
 
 export interface Song {
-  id?: string;
+  _id: string;
   name: string;
   genre: string;
   duration: number;
@@ -17,7 +17,7 @@ export interface Song {
 export class SongService {
   songList: Song[] = [
     {
-      id: '1',
+      _id: '1',
       name: 'Test1',
       genre: 'Rock',
       duration: 3.25,
@@ -25,7 +25,7 @@ export class SongService {
     },
 
     {
-      id: '2',
+      _id: '2',
       name: 'Test2',
       genre: 'Pop',
       duration: 3.25,
@@ -33,7 +33,7 @@ export class SongService {
     },
 
     {
-      id: '3',
+      _id: '3',
       name: 'Test3',
       genre: 'Dangdut',
       duration: 3.25,
@@ -41,7 +41,7 @@ export class SongService {
     },
 
     {
-      id: '4',
+      _id: '4',
       name: 'Test4',
       genre: 'Rock',
       duration: 3.25,
@@ -49,7 +49,7 @@ export class SongService {
     },
 
     {
-      id: '5',
+      _id: '5',
       name: 'Test5',
       genre: 'Pop',
       duration: 3.25,
@@ -57,7 +57,7 @@ export class SongService {
     },
 
     {
-      id: '6',
+      _id: '6',
       name: 'Test6',
       genre: 'Dangdut',
       duration: 3.25,
@@ -65,7 +65,7 @@ export class SongService {
     },
 
     {
-      id: '7',
+      _id: '7',
       name: 'Test7',
       genre: 'Rock',
       duration: 3.25,
@@ -73,7 +73,7 @@ export class SongService {
     },
 
     {
-      id: '8',
+      _id: '8',
       name: 'Test8',
       genre: 'Pop',
       duration: 3.25,
@@ -81,7 +81,7 @@ export class SongService {
     },
 
     {
-      id: '9',
+      _id: '9',
       name: 'Test9',
       genre: 'Dangdut',
       duration: 3.25,
@@ -160,6 +160,33 @@ export class SongService {
       `,
       variables: {
         id,
+      },
+    });
+  }
+
+  getFilteredSongs(songlistInput: {
+    name: string;
+    genre: string;
+    duration: number;
+    creator_name: string;
+  }) {
+    return this.apollo.query({
+      query: gql`
+        query GetSongFilter($songlistInput: SongListFilterInput) {
+          getSongFilter(songlist_input: $songlistInput) {
+            _id
+            name
+            genre
+            duration
+            created_by {
+              _id
+              name
+            }
+          }
+        }
+      `,
+      variables: {
+        songlistInput
       },
     });
   }

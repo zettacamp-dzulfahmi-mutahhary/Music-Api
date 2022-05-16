@@ -2,18 +2,24 @@ import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { BehaviorSubject, map, Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { JwtHelperService } from "@auth0/angular-jwt";
+import { SharedService } from '../shared/shared.service';
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class LoginServiceService {
-  constructor(private apollo: Apollo) {}
+  constructor(private apollo: Apollo, private jwtHelper: JwtHelperService, private shared : SharedService) {}
 
   isLoggedIn$ = new BehaviorSubject(false);
   isLoggedInObs = this.isLoggedIn$.asObservable();
 
   isLoading$ = new BehaviorSubject(false);
   isLoadingObs = this.isLoading$.asObservable();
+
+  jwtPayload: any;
+
 
   loginUser(userInput: { email: string; password: string }): Observable<any> {
     return this.apollo
@@ -44,6 +50,7 @@ export class LoginServiceService {
     }
     localStorage.setItem(environment.tokenKey, JSON.stringify(token));
     this.isLoggedIn$.next(true);
-    this.isLoggedInObs.subscribe((data) => console.log(`login : ${data}`));
+    this.shared.getJWTPayload(token);
+    
   }
 }

@@ -41,6 +41,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       error: (error) => {
         console.log(error);
         this.errorMessage = error;
+        this.loginService.isLoading$.next(false);
       },
     });
   }
