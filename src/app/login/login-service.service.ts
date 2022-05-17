@@ -18,7 +18,6 @@ export class LoginServiceService {
   isLoading$ = new BehaviorSubject(false);
   isLoadingObs = this.isLoading$.asObservable();
 
-  jwtPayload: any;
 
 
   loginUser(userInput: { email: string; password: string }): Observable<any> {
@@ -50,7 +49,7 @@ export class LoginServiceService {
     }
     localStorage.setItem(environment.tokenKey, JSON.stringify(token));
     this.isLoggedIn$.next(true);
-    this.shared.getJWTPayload(token);
+    this.shared.getJWTPayload();
     
   }
 }
