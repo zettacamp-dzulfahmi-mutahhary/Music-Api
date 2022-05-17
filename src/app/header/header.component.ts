@@ -1,29 +1,28 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { LoginServiceService } from '../login/login-service.service';
 import { SharedService } from '../shared/shared.service';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-
-  constructor(private shared : SharedService, private route: Router) { }
+  constructor(
+    private shared: SharedService,
+    private route: Router,
+    public loginService: LoginServiceService
+  ) {}
 
   userName = this.shared.currentUser.email;
 
-  onLogOut(){
+  onLogOut() {
     console.log('logout');
-    localStorage.clear()
-    this.route.navigate(['login'])
-    
-    
+    localStorage.clear();
+    this.loginService.isLoggedIn$.next(false);
+    this.route.navigate(['login']);
   }
 
-  ngOnInit(): void {
-    console.log(this.shared.currentUser);
-    
-  }
-
+  ngOnInit(): void {}
 }

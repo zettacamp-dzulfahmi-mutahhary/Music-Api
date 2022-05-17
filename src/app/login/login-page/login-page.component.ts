@@ -49,6 +49,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.loginService.isLoadingObs.subscribe((data) => (this.isLoading = data));
     this.formInit();
+    
   }
 
   ngOnDestroy(): void {}

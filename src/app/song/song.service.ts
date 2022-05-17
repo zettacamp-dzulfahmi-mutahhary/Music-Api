@@ -186,7 +186,33 @@ export class SongService {
         }
       `,
       variables: {
-        songlistInput
+        songlistInput,
+      },
+    });
+  }
+
+  getSortSongs(songlistInput: {
+    name: string;
+    genre: string;
+    creator_name: string;
+  }) {
+    return this.apollo.query({
+      query: gql`
+        query GetSongSort($songlistInput: SongListSortInput) {
+          getSongSort(songlist_input: $songlistInput) {
+            _id
+            name
+            genre
+            duration
+            created_by {
+              _id
+              name
+            }
+          }
+        }
+      `,
+      variables: {
+        songlistInput,
       },
     });
   }

@@ -12,8 +12,11 @@ export class SharedService {
 
   currentUser: any = {email: 'User'};
 
-  getJWTPayload(token: string){
-   this.currentUser = this.jwtHelper.decodeToken(token);
+  getJWTPayload(){
+   const tokenKey = localStorage.getItem('token')
+   this.currentUser = this.jwtHelper.decodeToken(tokenKey);
+   console.log(tokenKey);
+   
   }
 
 

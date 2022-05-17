@@ -4,7 +4,7 @@
     <button class="add-button" mat-raised-button (click)="addSong()">
       <mat-icon>add</mat-icon> Add Song
     </button>
-    <button class="reset-button" mat-raised-button>
+    <button class="reset-button" mat-raised-button (click)="onReset()">
       <mat-icon>restart_alt</mat-icon> Reset
     </button>
   </div>
@@ -12,12 +12,14 @@
   <mat-spinner *ngIf="isLoading" color="accent"> </mat-spinner>
 
   <table
+ 
     mat-table
     [dataSource]="dataSource"
+    matSort matSortActive="name" matSortDirection="asc" matSortDisableClear
     class="song-list-table mat-elevation-z8"
   >
     <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef><span>Name</span></th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header ><span>Name</span></th>
 
       <td mat-cell *matCellDef="let data">
         {{ data.name }}
@@ -25,7 +27,7 @@
     </ng-container>
 
     <ng-container matColumnDef="genre">
-      <th mat-header-cell *matHeaderCellDef><span>Genre</span></th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header><span>Genre</span></th>
 
       <td mat-cell *matCellDef="let data">
         {{ data.genre }}
@@ -33,7 +35,7 @@
     </ng-container>
 
     <ng-container matColumnDef="duration">
-      <th mat-header-cell *matHeaderCellDef><span>Duration</span></th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header><span>Duration</span></th>
 
       <td mat-cell *matCellDef="let data">
         {{ data.duration | formatTime }}
@@ -41,7 +43,7 @@
     </ng-container>
 
     <ng-container matColumnDef="created_by">
-      <th mat-header-cell *matHeaderCellDef><span>Created By</span></th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header><span>Created By</span></th>
 
       <td mat-cell *matCellDef="let data">
         {{ data.created_by.name }}
@@ -83,7 +85,7 @@
           <mat-form-field>
             <mat-label>Name Search</mat-label>
             <input
-              (change)="onSearchFilter()"
+              (input)="onSearchFilter()"
               matInput
               type="text"
               #name
@@ -97,7 +99,7 @@
           <mat-form-field>
             <mat-label>Genre Search</mat-label>
             <input
-              (change)="onSearchFilter()"
+              (input)="onSearchFilter()"
               matInput
               type="text"
               #genre
@@ -111,7 +113,7 @@
           <mat-form-field>
             <mat-label>Duration Search</mat-label>
             <input
-              (change)="onSearchFilter()"
+              (input)="onSearchFilter()"
               matInput
               type="number"
               #duration
@@ -125,7 +127,7 @@
           <mat-form-field>
             <mat-label>Creator Search</mat-label>
             <input
-              (change)="onSearchFilter()"
+              (input)="onSearchFilter()"
               matInput
               type="text"
               #created_by
@@ -157,25 +159,11 @@
   >
   </mat-paginator>
 
-  <!-- <form [formGroup]="filterForm">
-    <mat-form-field>
-      <mat-label>Name Search</mat-label>
-      <input matInput formControlName="nameFilter" />
-    </mat-form-field>
+ <div class="error" *ngIf="!isLoggedIn">
+   <p>You Must Login</p>
+ </div>
 
-    <mat-form-field>
-      <mat-label>Genre Search</mat-label>
-      <input matInput formControlName="genreFilter" />
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>Duration Search</mat-label>
-      <input matInput formControlName="durationFilter" />
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>Creator Search</mat-label>
-      <input matInput formControlName="created_byFilter" />
-    </mat-form-field>
-  </form> -->
+ <div class="error" *ngIf="errorMessage">
+  <p>{{errorMessage}}</p>
+</div>
 </div>

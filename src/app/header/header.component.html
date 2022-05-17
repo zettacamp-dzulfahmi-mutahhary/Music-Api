@@ -2,9 +2,10 @@
   <span>Music API</span>
 
   <div class="router-links">
-    <p>{{ userName }}</p>
+    <span *ngIf=" loginService.isLoggedInObs | async">{{ userName }}</span>
     <button mat-raised-button color="primary" (click)="onLogOut()">
       Logout
     </button>
+    
   </div>
 </mat-toolbar>

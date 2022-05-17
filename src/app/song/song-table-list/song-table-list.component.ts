@@ -2,9 +2,12 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { debounceTime, distinctUntilChanged, startWith, tap } from 'rxjs';
+import { LoginServiceService } from 'src/app/login/login-service.service';
+
 import { SharedService } from 'src/app/shared/shared.service';
 import Swal from 'sweetalert2';
 import { openAddSongDialog } from '../add-song-dialog/add-song-dialog.component';
@@ -21,15 +24,19 @@ export class SongTableListComponent implements OnInit, AfterViewInit {
     public dialog: MatDialog,
     private router: Router,
     private shared: SharedService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    public loginService: LoginServiceService
   ) {}
   currentUser: any = this.shared.currentUser;
+  isLoggedIn = false;
   isLoading = false;
+  errorMessage = '';
   dataCount = 0;
   pageSizeOptions: number[] = [5, 10, 25, 50, 100];
   filterForm: FormGroup;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   dataSource = new MatTableDataSource<Song>();
   columnsDisplayed = ['name', 'genre', 'duration', 'created_by', 'actions'];
@@ -59,11 +66,18 @@ export class SongTableListComponent implements OnInit, AfterViewInit {
     this.songService
       .getAllSongs(pagination)
       .pipe(debounceTime(1000))
-      .subscribe((data) => {
-        this.dataSource.data = data.data.getAllSongs.songs;
-        this.isLoading = false;
-        this.paginator.length = data.data.getAllSongs.count;
-        this.dataCount = data.data.getAllSongs.count;
+      .subscribe({
+        next: (data) => {
+          this.dataSource.data = data.data.getAllSongs.songs;
+          this.isLoading = false;
+          this.paginator.length = data.data.getAllSongs.count;
+          this.dataCount = data.data.getAllSongs.count;
+        },
+        error: (err) => {
+          console.log(err);
+          this.isLoading = false;
+          this.errorMessage = 'Somethings Wrong...I Can Feel It';
+        },
       });
   }
 
@@ -143,27 +157,75 @@ export class SongTableListComponent implements OnInit, AfterViewInit {
   onSearchFilter() {
     this.filterForm.valueChanges
       .pipe(debounceTime(500), distinctUntilChanged())
-      .subscribe(({ nameFilter, genreFilter, durationFilter , created_byFilter }) => {
-        this.songService.getFilteredSongs({
-          name: nameFilter,
-          genre: genreFilter,
-          duration: durationFilter,
-          creator_name: created_byFilter,
-          
-        }).subscribe({next: res => {
-          console.log(res);
-          
-        }, error: err => console.log(err)
-        });
-      });
+      .subscribe(
+        ({ nameFilter, genreFilter, durationFilter, created_byFilter }) => {
+          this.songService
+            .getFilteredSongs({
+              name: nameFilter,
+              genre: genreFilter,
+              duration: durationFilter,
+              creator_name: created_byFilter,
+            })
+            .subscribe({
+              next: (res) => {
+                console.log(res);
+                this.dataSource.data = res.data['getSongFilter'];
+                console.log(res.data);
+              },
+              error: (err) => console.log(err.data),
+            });
+        }
+      );
   }
 
-  ngOnInit(): void {
-    this.onFormInit();
+  onSortSong() {
+    console.log(this.sort.active);
+    console.log(this.sort.direction);
+    const sortValue = {
+      name: this.sort.active == 'name' ? this.sort.direction : null,
+      genre: this.sort.active == 'genre' ? this.sort.direction : null,
+      creator_name:
+        this.sort.active == 'created_by' ? this.sort.direction : null,
+    };
+    this.songService.getSortSongs(sortValue).subscribe({
+      next: (res) => {
+        console.log(res);
+        this.dataSource.data = res.data['getSongSort'];
+      },
+      error: (err) => console.log(err),
+    });
+  }
+
+  onReset() {
+    this.filterForm.setValue({
+      nameFilter: '',
+      genreFilter: '',
+      durationFilter: null,
+      created_byFilter: '',
+    });
+    this.paginator.pageSize = 5;
+    this.paginator.pageIndex = 0;
     this.onFetchData();
   }
 
+  ngOnInit(): void {
+    this.loginService.isLoggedInObs.subscribe(
+      (login) => (this.isLoggedIn = login)
+    );
+    this.onFormInit();
+    this.onFetchData();
+    this.shared.getJWTPayload();
+  }
+
   ngAfterViewInit(): void {
+    this.sort.sortChange
+      .pipe(
+        tap(() => {
+          this.onSortSong();
+        })
+      )
+      .subscribe();
+
     this.paginator.page
       .pipe(
         startWith(null),
