@@ -77,6 +77,7 @@ export class SongTableListComponent implements OnInit, AfterViewInit {
           console.log(err);
           this.isLoading = false;
           this.errorMessage = 'Somethings Wrong...I Can Feel It';
+          this.router.navigate(['login'])
         },
       });
   }

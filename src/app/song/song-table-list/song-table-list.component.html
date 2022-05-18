@@ -12,14 +12,18 @@
   <mat-spinner *ngIf="isLoading" color="accent"> </mat-spinner>
 
   <table
- 
     mat-table
     [dataSource]="dataSource"
-    matSort matSortActive="name" matSortDirection="asc" matSortDisableClear
+    matSort
+    matSortActive="name"
+    matSortDirection="asc"
+    matSortDisableClear
     class="song-list-table mat-elevation-z8"
   >
     <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header ><span>Name</span></th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <span>Name</span>
+      </th>
 
       <td mat-cell *matCellDef="let data">
         {{ data.name }}
@@ -27,7 +31,9 @@
     </ng-container>
 
     <ng-container matColumnDef="genre">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header><span>Genre</span></th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <span>Genre</span>
+      </th>
 
       <td mat-cell *matCellDef="let data">
         {{ data.genre }}
@@ -35,7 +41,9 @@
     </ng-container>
 
     <ng-container matColumnDef="duration">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header><span>Duration</span></th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <span>Duration</span>
+      </th>
 
       <td mat-cell *matCellDef="let data">
         {{ data.duration | formatTime }}
@@ -43,7 +51,9 @@
     </ng-container>
 
     <ng-container matColumnDef="created_by">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header><span>Created By</span></th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <span>Created By</span>
+      </th>
 
       <td mat-cell *matCellDef="let data">
         {{ data.created_by.name }}
@@ -62,6 +72,7 @@
           <mat-icon>visibility</mat-icon>
         </button>
         <button
+          *ngIf="this.currentUser.id === data.created_by._id"
           class="row-edit-button row-button"
           mat-icon-button
           (click)="editSong(data)"
@@ -69,6 +80,7 @@
           <mat-icon>edit</mat-icon>
         </button>
         <button
+          *ngIf="this.currentUser.id === data.created_by._id"
           class="row-delete-button row-button"
           mat-icon-button
           (click)="onDelete(data)"
@@ -159,11 +171,11 @@
   >
   </mat-paginator>
 
- <div class="error" *ngIf="!isLoggedIn">
-   <p>You Must Login</p>
- </div>
+  <div class="error" *ngIf="!isLoggedIn">
+    <p>You Must Login</p>
+  </div>
 
- <div class="error" *ngIf="errorMessage">
-  <p>{{errorMessage}}</p>
-</div>
+  <div class="error" *ngIf="errorMessage">
+    <p>{{ errorMessage }}</p>
+  </div>
 </div>
