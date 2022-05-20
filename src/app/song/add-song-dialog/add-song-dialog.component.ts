@@ -56,7 +56,7 @@ export class AddSongDialogComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.formInit();
-    this.disableForm();
+    // this.disableForm();
     this.currentSong = this.song;
     // this.isEdit = this.song.name ? true : false;
     
@@ -91,6 +91,8 @@ export class AddSongDialogComponent implements OnInit, AfterViewInit {
     const updatedSong = {
       song_id: this.song._id,
       name: this.addSongForm.value.name,
+      genre: this.addSongForm.value.genre,
+      duration: this.addSongForm.value.duration
     };
 
     Swal.fire({

@@ -26,10 +26,6 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('music-api');
   });
 
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('music-api app is running!');
-  });
+  
+  
 });

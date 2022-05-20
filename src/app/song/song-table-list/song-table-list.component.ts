@@ -215,7 +215,7 @@ export class SongTableListComponent implements OnInit, AfterViewInit {
     );
     this.onFormInit();
     this.onFetchData();
-    this.shared.getJWTPayload();
+    
   }
 
   ngAfterViewInit(): void {

@@ -234,7 +234,7 @@ export class SongService {
     });
   }
 
-  editSong(songlistInput: { song_id: string; name: string }) {
+  editSong(songlistInput: { song_id: string; name: string, genre: string, duration: number }) {
     return this.apollo.mutate({
       mutation: gql`
         mutation UpdateSong($songlistInput: SongListEditInput) {

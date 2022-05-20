@@ -49,7 +49,7 @@ export class LoginServiceService {
     }
     localStorage.setItem(environment.tokenKey, JSON.stringify(token));
     this.isLoggedIn$.next(true);
-    this.shared.getJWTPayload();
+    
     
   }
 }

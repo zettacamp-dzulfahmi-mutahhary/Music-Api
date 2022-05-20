@@ -10,13 +10,10 @@ export class SharedService {
 
   constructor(private jwtHelper : JwtHelperService) { }
 
-  currentUser: any = {email: 'User'};
+  currentUser;
 
-  getJWTPayload(){
-   const tokenKey = localStorage.getItem('token')
+  getJWTPayload(tokenKey){
    this.currentUser = this.jwtHelper.decodeToken(tokenKey);
-   console.log(tokenKey);
-   
   }
 
 
